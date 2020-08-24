@@ -45,8 +45,5 @@ WORKDIR /home
 
 COPY Cargo.toml Makefile.toml /home/
 COPY src /home/src/
-# copying the easy example stuff to also build it with this lambda-compat image
-COPY examples/easy/src /home/examples/easy/src/
-COPY examples/easy/Cargo.toml /home/examples/easy/
 
 CMD ["cargo", "make", "runtime"]

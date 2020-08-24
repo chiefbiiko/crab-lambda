@@ -7,7 +7,7 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
   maintainer="Noah Anabiik Schwarz" \
   license="MIT"
 
-ENV RUST_VERSION="1.45.2" \
+ENV RUST_VERSION=1.41.0 \
   PATH=/root/.cargo/bin:$PATH \
   RUST_BACKTRACE=FULL \
   RUSTFLAGS="-C target-feature=-crt-static" \
@@ -37,7 +37,7 @@ RUN yum install -y \
 VOLUME /home
 WORKDIR /home
 
-COPY Cargo.toml /home/Cargo.toml
+COPY Cargo.toml /home/
 COPY src /home/src/
 
 CMD ["sh", "-c", "cargo build --release && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/x86_64-unknown-linux-musl/release/$LIBRARY_NAME"]
