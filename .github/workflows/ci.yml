@@ -12,8 +12,10 @@ env:
   RUNTIME_ZIP_FILE_NAME: runtime.zip
   VERSION: 0.0.0
   VERSION_DOTLESS: ${VERSION//./}
-  RUNTIME_BUILD_IMAGE_TAG: docker.pkg.github.com/chiefbiiko/crab-lambda/crab-lambda-runtime-build-image:0.0.0-amazonlinux2
-  LAMBDA_BUILD_IMAGE_TAG: docker.pkg.github.com/chiefbiiko/crab-lambda/crab-lambda-function-build-image:0.0.0-amazonlinux2
+  # RUNTIME_BUILD_IMAGE_TAG: docker.pkg.github.com/chiefbiiko/crab-lambda/crab-lambda-runtime-build-image:0.0.0-amazonlinux2
+  # LAMBDA_BUILD_IMAGE_TAG: docker.pkg.github.com/chiefbiiko/crab-lambda/crab-lambda-function-build-image:0.0.0-amazonlinux2
+  RUNTIME_BUILD_IMAGE_TAG: crab-lambda-runtime-build-image:0.0.0-amazonlinux2
+  LAMBDA_BUILD_IMAGE_TAG: crab-lambda-function-build-image:0.0.0-amazonlinux2
   BUNDLE_ZIP_FILE_NAME: example.zip
   LIBRARY_NAME: libcrab_lambda_easy_example.so
 
