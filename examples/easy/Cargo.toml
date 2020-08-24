@@ -1,0 +1,12 @@
+[package]
+name = "crab-lambda-easy-example"
+version = "0.1.0"
+authors = ["Noah Anabiik Schwarz <noah.anabiik.schwarz@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["dylib"]
+
+[dependencies]
+anyhow = "1.0.32"
+serde_json = "1.0.57"

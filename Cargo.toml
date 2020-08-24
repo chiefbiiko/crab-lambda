@@ -1,0 +1,14 @@
+[package]
+name = "crab-lambda-runtime"
+version = "0.1.0"
+authors = ["Noah Anabiik Schwarz <noah.anabiik.schwarz@gmail.com>"]
+edition = "2018"
+repository = "https://github.com/chiefbiiko/crab-lambda"
+
+[[bin]]
+name = "crab-lambda-runtime"
+
+[dependencies]
+anyhow = "1.0.32"
+reqwest = { version = "0.10.7", features = ["blocking"], default-features = false }
+libloading = "0.6"
