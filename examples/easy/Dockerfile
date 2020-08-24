@@ -13,7 +13,7 @@ ENV RUSTFLAGS="-C target-feature=-crt-static" \
   CC_x86_64_unknown_linux_musl=clang \
   CXX_x86_64_unknown_linux_musl=clang++ \
   CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=clang++ \
-  BUNDLE_NAME=example.zip
+  BUNDLE_ZIP_FILE_NAME=example.zip
   LIBRARY_NAME=libcrab_lambda_easy_example.so
 
 RUN yum install -y \
@@ -38,4 +38,4 @@ WORKDIR /home
 COPY Cargo.toml /home/Cargo.toml
 COPY src /home/src/
 
-CMD ["sh", "-c", "cargo build --release && zip -mj $BUNDLE_NAME ./target/x86_64-unknown-linux-musl/release/$LIBRARY_NAME"]
+CMD ["sh", "-c", "cargo build --release && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/x86_64-unknown-linux-musl/release/$LIBRARY_NAME"]

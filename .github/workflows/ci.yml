@@ -14,7 +14,7 @@ env:
   VERSION_DOTLESS: ${VERSION//./}
   RUNTIME_BUILD_IMAGE_TAG: docker.pkg.github.com/chiefbiiko/crab-lambda/crab-lambda-runtime-build-image:0.0.0-amazonlinux2
   LAMBDA_BUILD_IMAGE_TAG: docker.pkg.github.com/chiefbiiko/crab-lambda/crab-lambda-function-build-image:0.0.0-amazonlinux2
-  BUNDLE_NAME: example.zip
+  BUNDLE_ZIP_FILE_NAME: example.zip
   LIBRARY_NAME: libcrab_lambda_easy_example.so
 
 jobs:
@@ -48,21 +48,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.2
-      - run: cd examples/easy
 
       - name: build the lambda build image
         run: |
           docker build \
-            --file=./Dockerfile \
+            --file=./examples/easy/Dockerfile \
             --tag=${{ env.LAMBDA_BUILD_IMAGE_TAG }} \
-            .
+            ./examples/easy
 
       - name: build the example in the custom build container
         run: |
           docker run \
             --rm \
-            --env BUNDLE_NAME=${{ env.BUNDLE_NAME }} \
-            --env LIBRARY_NAME=${{ env.LIBRARY_NAME }}  \
+            --env BUNDLE_ZIP_FILE_NAME=${{ env.BUNDLE_ZIP_FILE_NAME }} \
+            --env LIBRARY_NAME=${{ env.LIBRARY_NAME }} \
             --volume=$PWD:/home \
             ${{ env.LAMBDA_BUILD_IMAGE_TAG }}
 
@@ -70,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v2.1.4
         with:
           name: example
-          path: ${{ env.BUNDLE_NAME }}
+          path: ${{ env.BUNDLE_ZIP_FILE_NAME }}
 
   test_crab_lambda:
     needs:
