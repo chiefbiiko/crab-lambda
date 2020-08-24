@@ -28,7 +28,7 @@ ls ./target/x86_64-unknown-linux-musl/release
 
 [tasks.bundle]
 command = "zip"
-args = ["-mj", "./${RUNTIME_ZIP_FILE_NAME}", "./target/x86_64-unknown-linux-musl/release/crab-lambda-easy-example.so"]
+args = ["-mj", "./${RUNTIME_ZIP_FILE_NAME}", "./target/x86_64-unknown-linux-musl/release/libcrab_lambda_easy_example.so"]
 
 [tasks.example]
 dependencies = ["format", "clean", "build", "peep", "bundle"]
