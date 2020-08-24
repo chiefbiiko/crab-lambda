@@ -7,7 +7,9 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
   maintainer="Noah Anabiik Schwarz" \
   license="MIT"
 
-ENV RUST_VERSION="1.41.0" \
+ENV RUST_VERSION="1.45.2" \
+  PATH=/root/.cargo/bin:$PATH \
+  RUST_BACKTRACE=FULL \
   RUSTFLAGS="-C target-feature=-crt-static" \
   PKG_CONFIG_ALLOW_CROSS=true \
   CARGO_BUILD_TARGET=x86_64-unknown-linux-musl \
@@ -33,7 +35,6 @@ RUN yum install -y \
   rustup target add x86_64-unknown-linux-musl
 
 VOLUME /home
-
 WORKDIR /home
 
 COPY Cargo.toml /home/Cargo.toml
