@@ -81,7 +81,7 @@ fn main() -> Rezult<()> {
     let client: Client = Client::new();
     let lib: Library;
     let lambda: Symbol<
-        unsafe extern "C" fn(e: String, c: String) -> Rezult<String>,
+        unsafe extern fn(e: String, c: String) -> Rezult<String>,
     >;
 
     unsafe {
