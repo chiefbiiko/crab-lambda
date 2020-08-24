@@ -1,6 +1,7 @@
 # run `cargo make example` in /home of a container offa ../../Dockerfile
 
 [env]
+RUST_FLAGS = "-C target-feature=-crt-static"
 EXAMPLE_ZIP_FILE_NAME = { value = "example.zip", condition = { env_not_set = ["EXAMPLE_ZIP_FILE_NAME"] } }
 
 [tasks.setup-mac.mac]
