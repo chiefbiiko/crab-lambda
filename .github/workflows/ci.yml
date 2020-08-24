@@ -153,6 +153,7 @@ jobs:
 
       - name: deploy the example lambda
         run: |
+          sudo apt-get update && apt-get install tree -y
           echo "[DEBUG]"
           tree ./example
           aws lambda create-function \
