@@ -156,7 +156,7 @@ jobs:
           aws lambda create-function \
             --function-name=${{ env.FUNC_NAME }} \
             --runtime=provided \
-            --role=arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole \
+            --role=${{ secrets.FUNC_EXEC_ROLE_ARN }} \
             --handler=example.handler \
             --description="testing crab-lambda" \
             --timeout=3 \
