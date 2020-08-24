@@ -153,9 +153,10 @@ jobs:
 
       - name: deploy the example lambda
         run: |
-          sudo apt-get update && sudo apt-get install tree -y
+          sudo apt-get update && sudo apt-get install tree -y > /dev/null
           echo "[DEBUG]"
-          tree ./example
+          pwd
+          tree .
           aws lambda create-function \
             --function-name=${{ env.FUNC_NAME }} \
             --runtime=provided \
