@@ -12,56 +12,32 @@ env:
   RUNTIME_ZIP_FILE_NAME: runtime.zip
   VERSION: 0.0.0
   VERSION_DOTLESS: ${VERSION//./}
-  DOCKER_BUILD_IMAGE_TAG: docker.pkg.github.com/chiefbiiko/crab-lambda/crab-lambda-runtime-build-image:0.0.0-amazonlinux2
+  RUNTIME_BUILD_IMAGE_TAG: docker.pkg.github.com/chiefbiiko/crab-lambda/crab-lambda-runtime-build-image:0.0.0-amazonlinux2
+  LAMBDA_BUILD_IMAGE_TAG: docker.pkg.github.com/chiefbiiko/crab-lambda/crab-lambda-function-build-image:0.0.0-amazonlinux2
+  BUNDLE_NAME: example.zip
+  LIBRARY_NAME: libcrab_lambda_easy_example.so
 
 jobs:
-  build_image:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2.3.2
-
-      - name: build the build image
-        run: |
-          docker build \
-            --file=./Dockerfile \
-            --tag=${{ env.DOCKER_BUILD_IMAGE_TAG }} \
-            .
-
-      - name: docker.pkg.github.com login
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} \
-          | \
-          docker login docker.pkg.github.com \
-            --username=$GITHUB_ACTOR \
-            --password-stdin
-
-      - name: publish the build image 2 docker.pkg.github.com
-        run: docker push ${{ env.DOCKER_BUILD_IMAGE_TAG }}
-
   build_runtime:
     needs: build_image
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.2
 
-      - name: docker.pkg.github.com login
+      - name: build the runtime build image
         run: |
-          echo ${{ secrets.GITHUB_TOKEN }} \
-          | \
-          docker login docker.pkg.github.com \
-            --username=$GITHUB_ACTOR \
-            --password-stdin
+          docker build \
+            --file=./Dockerfile \
+            --tag=${{ env.RUNTIME_BUILD_IMAGE_TAG }} \
+            .
 
-      - name: pull the build image 4rom docker.pkg.github.com
-        run: docker pull ${{ env.DOCKER_BUILD_IMAGE_TAG }}
-
-      - name: build the runtime in the custom build container
+      - name: build the runtime in the build container
         run: |
           docker run \
             --rm \
             --volume=$PWD:/home \
             --env=RUNTIME_ZIP_FILE_NAME=${{ env.RUNTIME_ZIP_FILE_NAME }} \
-            ${{ env.DOCKER_BUILD_IMAGE_TAG }}
+            ${{ env.RUNTIME_BUILD_IMAGE_TAG }}
 
       - name: upload the runtime layer artifact
         uses: actions/upload-artifact@v2.1.4
@@ -74,32 +50,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.2
+      - run: cd examples/easy
 
-      - name: docker.pkg.github.com login
+      - name: build the lambda build image
         run: |
-          echo ${{ secrets.GITHUB_TOKEN }} \
-          | \
-          docker login docker.pkg.github.com \
-            --username=$GITHUB_ACTOR \
-            --password-stdin
-
-      - name: pull the build image 4rom docker.pkg.github.com
-        run: docker pull ${{ env.DOCKER_BUILD_IMAGE_TAG }}
+          docker build \
+            --file=./Dockerfile \
+            --tag=${{ env.LAMBDA_BUILD_IMAGE_TAG }} \
+            .
 
       - name: build the example in the custom build container
-        # TODO: make a mvp docker file 4 building lambda-compat dylibs
         run: |
           docker run \
             --rm \
+            --env BUNDLE_NAME=${{ env.BUNDLE_NAME }} \
+            --env LIBRARY_NAME=${{ env.LIBRARY_NAME }}  \
             --volume=$PWD:/home \
-            ${{ env.DOCKER_BUILD_IMAGE_TAG }} \
-              sh ./bundle.sh
+            ${{ env.LAMBDA_BUILD_IMAGE_TAG }}
 
       - name: upload the example bundle artifact
         uses: actions/upload-artifact@v2.1.4
         with:
           name: example
-          path: examples/easy/${{ env.EXAMPLE_ZIP_FILE_NAME }}
+          path: ${{ env.BUNDLE_NAME }}
 
   test_crab_lambda:
     needs:

@@ -2,5 +2,5 @@
 
 ## TODO
 
-* make `examples/easy/Makefile.toml` a `cargo build` one-line
+* make the runtime and example Dockerfile separate
 * think about in/output typings
