@@ -7,7 +7,7 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
   maintainer="Noah Anabiik Schwarz" \
   license="MIT"
 
-ENV RUST_VERSION="1.45.2" \
+ENV RUST_VERSION="1.41.0" \
   RUSTFLAGS="-C target-feature=-crt-static" \
   PKG_CONFIG_ALLOW_CROSS=true \
   CARGO_BUILD_TARGET=x86_64-unknown-linux-musl \
