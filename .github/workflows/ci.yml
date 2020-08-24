@@ -10,7 +10,6 @@ env:
   AWS_REGION: us-east-1
   FUNC_NAME: crab-lambda-test-function
   RUNTIME_ZIP_FILE_NAME: runtime.zip
-  EXAMPLE_ZIP_FILE_NAME: example.zip
   VERSION: 0.0.0
   VERSION_DOTLESS: ${VERSION//./}
   DOCKER_BUILD_IMAGE_TAG: docker.pkg.github.com/chiefbiiko/crab-lambda/crab-lambda-runtime-build-image:0.0.0-amazonlinux2
@@ -94,10 +93,7 @@ jobs:
             --rm \
             --volume=$PWD:/home \
             ${{ env.DOCKER_BUILD_IMAGE_TAG }} \
-              cargo make \
-                --cwd=examples/easy \
-                --env=EXAMPLE_ZIP_FILE_NAME=${{ env.EXAMPLE_ZIP_FILE_NAME }} \
-                example
+              sh ./bundle.sh
 
       - name: upload the example bundle artifact
         uses: actions/upload-artifact@v2.1.4
@@ -171,12 +167,12 @@ jobs:
               --function-name=${{ env.FUNC_NAME }} \
               --log-type=Tail  \
               ./response.json
-          
-          message="$(jq -r '.Payload.🦀🐑' ./response.json)"
-          
+
+          message="$(jq -r '.Payload.fraud' ./response.json)"
+
           # TODO: assert_equal n co
-          if [[ "$message" != "made by chiefbiiko" ]]; then
-            >&2 printf "%s does not equal %s\n" "$message" "made by chiefbiiko"
+          if [[ "$message" != "money" ]]; then
+            >&2 printf "%s does not equal %s\n" "$message" "money"
             exit 1
           fi
 

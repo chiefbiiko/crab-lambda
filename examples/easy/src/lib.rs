@@ -6,5 +6,5 @@ pub fn lambda(event: String, context: String) -> Rezult<String> {
     println!("{}", event);
     println!("{}", context);
 
-    Ok(json!({ "🦀🐑": "made by chiefbiiko" }).to_string())
+    Ok(json!({ "fraud": "money" }).to_string())
 }
