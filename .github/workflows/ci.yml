@@ -153,6 +153,8 @@ jobs:
 
       - name: deploy the example lambda
         run: |
+          echo "[DEBUG]"
+          tree ./example
           aws lambda create-function \
             --function-name=${{ env.FUNC_NAME }} \
             --runtime=provided \
