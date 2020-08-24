@@ -8,7 +8,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  LAMBDA_FUNCTION_NAME: crab-lambda-test-lambda
+  FUNC_NAME: crab-lambda-test-function
   RUNTIME_ZIP_FILE_NAME: runtime.zip
   EXAMPLE_ZIP_FILE_NAME: example.zip
   VERSION: 0.0.0
@@ -104,26 +104,30 @@ jobs:
         with:
           name: example
           path: examples/easy/${{ env.EXAMPLE_ZIP_FILE_NAME }}
-  test:
-    name: test the runtime on AWS Lambda
+
+  test_crab_lambda:
     needs:
       - build_runtime
       - build_example
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.2
+      
       - uses: actions/download-artifact@v2.0.5
         with:
           name: runtime
+
       - uses: actions/download-artifact@v2.0.5
         with:
           name: example
+
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v1.5.1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+
       - name: publish a new runtime layer version
         id: publish_layer
         run: |
@@ -142,15 +146,15 @@ jobs:
       - name: delete any existing test function
         run: |
           if aws lambda get-function \
-            --function-name=${{ env.LAMBDA_FUNCTION_NAME }}; then
+            --function-name=${{ env.FUNC_NAME }}; then
             aws lambda delete-function \
-              --function-name=${{ env.LAMBDA_FUNCTION_NAME }}
+              --function-name=${{ env.FUNC_NAME }}
           fi
 
       - name: deploy the example lambda
         run: |
           aws lambda create-function \
-            --function-name=${{ env.LAMBDA_FUNCTION_NAME }} \
+            --function-name=${{ env.FUNC_NAME }} \
             --runtime=provided \
             --role=arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole \
             --handler=example.handler \
@@ -158,21 +162,24 @@ jobs:
             --timeout=3 \
             --memory-size=128 \
             --layers=${{ steps.publish_layer.outputs.runtime_arn }} \
-            --zip-file=fileb://example/examples/easy/${{ env.EXAMPLE_ZIP_FILE_NAME }} \
-          | \
-          jq '.FunctionArn'
+            --zip-file=fileb://example/${{ env.EXAMPLE_ZIP_FILE_NAME }}
 
       - name: invoke the example lambda
         run: |
           time \
             aws lambda invoke \
-              --function-name=${{ env.LAMBDA_FUNCTION_NAME }} \
+              --function-name=${{ env.FUNC_NAME }} \
               --log-type=Tail  \
               ./response.json
           
-          jq -r '.Payload.🦀🐑' ./response.json
+          message="$(jq -r '.Payload.🦀🐑' ./response.json)"
+          
+          # TODO: assert_equal n co
+          if [[ "$message" != "made by chiefbiiko" ]]; then
+            >&2 printf "%s does not equal %s\n" "$message" "made by chiefbiiko"
+            exit 1
+          fi
 
       - name: delete the example lambda
         run: |
-          aws lambda delete-function \
-            --function-name=${{ env.LAMBDA_FUNCTION_NAME }}
+          aws lambda delete-function --function-name=${{ env.FUNC_NAME }}
