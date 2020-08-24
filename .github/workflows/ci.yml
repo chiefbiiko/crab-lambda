@@ -137,7 +137,7 @@ jobs:
               --description="crab-lambda-runtime ${{ env.VERSION }}" \
               --compatible-runtimes=provided \
               --license-info=MIT \
-              --zip-file=fileb://runtime/${{ env.RUNTIME_ZIP_FILE_NAME }} \
+              --zip-file=fileb://${{ env.RUNTIME_ZIP_FILE_NAME }} \
             | \
             jq '.LayerVersionArn'
           )
@@ -145,7 +145,7 @@ jobs:
 
       - name: delete any existing test function
         run: |
-          if aws lambda get-function \
+          if >/dev/null aws lambda get-function \
             --function-name=${{ env.FUNC_NAME }}; then
             aws lambda delete-function \
               --function-name=${{ env.FUNC_NAME }}
@@ -153,10 +153,6 @@ jobs:
 
       - name: deploy the example lambda
         run: |
-          sudo apt-get update && sudo apt-get install tree -y > /dev/null
-          echo "[DEBUG]"
-          pwd
-          tree .
           aws lambda create-function \
             --function-name=${{ env.FUNC_NAME }} \
             --runtime=provided \
@@ -166,7 +162,7 @@ jobs:
             --timeout=3 \
             --memory-size=128 \
             --layers=${{ steps.publish_layer.outputs.runtime_arn }} \
-            --zip-file=fileb://example/${{ env.EXAMPLE_ZIP_FILE_NAME }}
+            --zip-file=fileb://${{ env.EXAMPLE_ZIP_FILE_NAME }}
 
       - name: invoke the example lambda
         run: |
