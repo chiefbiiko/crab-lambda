@@ -12,6 +12,7 @@ ENV PATH=/root/.cargo/bin:$PATH \
   RUST_VERSION=1.45.2 \
   RUST_BACKTRACE=FULL \
   RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-lpthread" \
+  PKG_CONFIG_ALLOW_CROSS=true \
   CARGO_BUILD_TARGET=x86_64-unknown-linux-musl \
   CC_x86_64_unknown_linux_musl=clang \
   CXX_x86_64_unknown_linux_musl=clang++ \
@@ -20,6 +21,7 @@ ENV PATH=/root/.cargo/bin:$PATH \
   LIBRARY_NAME=libcrab_lambda_easy_example.so
 
 RUN yum install -y \
+  glibc-headers-2.26-35.amzn2.0.2.x86_64
   glibc-devel-2.26-35.amzn2.0.2.x86_64 \
   clang-7.0.1-1.amzn2.0.2.x86_64 \
   clang-libs-7.0.1-1.amzn2.0.2.x86_64 \
@@ -33,7 +35,8 @@ RUN yum install -y \
   ln -s /usr/bin/cmake3 /usr/bin/cmake && \
   rm -rf /var/cache/yum && \
   curl -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain $RUST_VERSION -y && \
-  rustup target add x86_64-unknown-linux-musl
+  rustup target add x86_64-unknown-linux-musl && \
+  rustup default stable-x86_64-unknown-linux-musl
 
 VOLUME /home
 WORKDIR /home
