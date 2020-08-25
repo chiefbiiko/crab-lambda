@@ -10,8 +10,7 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
   # PKG_CONFIG_ALLOW_CROSS=true \
   # PATH="$HOME/.cargo/bin:$PATH" \
 ENV CARGO_HOME=/root/.cargo \
-  RUSTUP_HOME=/root/.rustup \
-  PATH="$CARGO_HOME/bin:$RUSTUP_HOME/bin:$PATH" \
+  PATH="$CARGO_HOME/bin:$PATH" \
   RUST_VERSION=1.41.0 \
   RUST_BACKTRACE=FULL \
   RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-lpthread" \
@@ -37,7 +36,7 @@ RUN yum install -y \
   zip-3.0-11.amzn2.0.2.x86_64 && \
   ln -s /usr/bin/cmake3 /usr/bin/cmake && \
   rm -rf /var/cache/yum && \
-  curl -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain $RUST_VERSION -y && \
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain $RUST_VERSION -y && \
   rustup target add x86_64-unknown-linux-musl
 
 VOLUME /home
