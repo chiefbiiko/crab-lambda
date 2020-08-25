@@ -7,6 +7,12 @@ edition = "2018"
 # [lib]
 # crate-type = ["dylib"]
 
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+
 [dependencies]
 anyhow = "1.0.32"
 # serde_json = "1.0.57"
