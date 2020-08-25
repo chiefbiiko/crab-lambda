@@ -8,7 +8,7 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
   license="MIT"
 
   # PKG_CONFIG_ALLOW_CROSS=true \
-ENV PATH="root/.cargo/bin:$PATH" \
+ENV PATH="$HOME/.cargo/bin:$PATH" \
   RUST_VERSION=1.41.0 \
   RUST_BACKTRACE=FULL \
   RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-lpthread" \
