@@ -13,7 +13,7 @@ ENV CARGO_HOME=/root/.cargo \
   PATH="$CARGO_HOME/bin:$PATH" \
   RUST_VERSION=1.41.0 \
   RUST_BACKTRACE=FULL \
-  RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-lpthread" \
+  RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-lpthread -C link-arg=-lm" \
   PKG_CONFIG_ALLOW_CROSS=true \
   CARGO_BUILD_TARGET=x86_64-unknown-linux-musl \
   CC_x86_64_unknown_linux_musl=clang \
