@@ -37,7 +37,7 @@ RUN yum install -y \
   ln -s /usr/bin/cmake3 /usr/bin/cmake && \
   rm -rf /var/cache/yum && \
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain $RUST_VERSION -y && \
-  rustup target add x86_64-unknown-linux-musl
+  /root/.cargo/bin/rustup target add x86_64-unknown-linux-musl
 
 VOLUME /home
 WORKDIR /home
@@ -45,4 +45,4 @@ WORKDIR /home
 COPY Cargo.toml /home/
 COPY src /home/src/
 
-CMD ["sh", "-c", "cargo build --release && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/x86_64-unknown-linux-musl/release/$LIBRARY_NAME"]
+CMD ["sh", "-c", "/root/.cargo/bin/cargo build --release && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/x86_64-unknown-linux-musl/release/$LIBRARY_NAME"]
