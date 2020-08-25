@@ -23,6 +23,7 @@ ENV CARGO_HOME=/root/.cargo \
   LIBRARY_NAME=libcrab_lambda_easy_example.so
 
 RUN yum install -y \
+  tree \
   glibc-headers-2.26-35.amzn2.0.2.x86_64 \
   glibc-devel-2.26-35.amzn2.0.2.x86_64 \
   clang-7.0.1-1.amzn2.0.2.x86_64 \
@@ -37,7 +38,8 @@ RUN yum install -y \
   ln -s /usr/bin/cmake3 /usr/bin/cmake && \
   rm -rf /var/cache/yum && \
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain $RUST_VERSION -y && \
-  /root/.cargo/bin/rustup target add x86_64-unknown-linux-musl
+  /root/.cargo/bin/rustup target add x86_64-unknown-linux-musl && \
+  /root/.cargo/bin/rustup default stable-x86_64-unknown-linux-musl 
 
 VOLUME /home
 WORKDIR /home
@@ -45,4 +47,4 @@ WORKDIR /home
 COPY Cargo.toml /home/
 COPY src /home/src/
 
-CMD ["sh", "-c", "/root/.cargo/bin/cargo build --release && ls ./target && ls ./target/release && ls ./target/x86_64-unknown-linux-musl/release && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/x86_64-unknown-linux-musl/release/$LIBRARY_NAME"]
+CMD ["sh", "-c", "/root/.cargo/bin/cargo build --release && tree ./target && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/x86_64-unknown-linux-musl/release/$LIBRARY_NAME"]
