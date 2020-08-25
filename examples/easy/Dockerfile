@@ -1,4 +1,4 @@
-FROM amazonlinux:2.0.20191217.0
+FROM amazonlinux:2.0.20200722.0
 
 LABEL url="https://github.com/chiefbiiko/crab-lambda" \
   version="0.1.0" \
@@ -20,7 +20,7 @@ ENV RUST_VERSION=1.41.0 \
   LIBRARY_NAME=libcrab_lambda_easy_example.so
 
 RUN yum install -y \
-  glibc-static-2.26-27.amzn2.0.4.x86_64 \
+  glibc-static-2.26-32.amzn2.0.2.x86_64 \
   clang-7.0.1-1.amzn2.0.2.x86_64 \
   clang-libs-7.0.1-1.amzn2.0.2.x86_64 \
   clang-devel-7.0.1-1.amzn2.0.2.x86_64 \
