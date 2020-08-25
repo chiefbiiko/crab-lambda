@@ -35,8 +35,8 @@ RUN yum install -y \
   ln -s /usr/bin/cmake3 /usr/bin/cmake && \
   rm -rf /var/cache/yum && \
   curl -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain $RUST_VERSION -y && \
-  rustup target add x86_64-unknown-linux-musl && \
-  rustup default stable-x86_64-unknown-linux-musl
+  "$HOME/.cargo/bin/rustup" target add x86_64-unknown-linux-musl && \
+  "$HOME/.cargo/bin/rustup" default stable-x86_64-unknown-linux-musl
 
 VOLUME /home
 WORKDIR /home
