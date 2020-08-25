@@ -15,11 +15,12 @@ ENV RUST_VERSION=1.41.0 \
   CARGO_BUILD_TARGET=x86_64-unknown-linux-musl \
   CC_x86_64_unknown_linux_musl=clang \
   CXX_x86_64_unknown_linux_musl=clang++ \
-  CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=g++ \
+  CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=clang++ \
   BUNDLE_ZIP_FILE_NAME=example.zip \
   LIBRARY_NAME=libcrab_lambda_easy_example.so
 
 RUN yum install -y \
+  kernel-devel-4.14.177-139.254.amzn2.x86_64 \
   clang-7.0.1-1.amzn2.0.2.x86_64 \
   clang-libs-7.0.1-1.amzn2.0.2.x86_64 \
   clang-devel-7.0.1-1.amzn2.0.2.x86_64 \
