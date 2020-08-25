@@ -20,7 +20,7 @@ ENV RUST_VERSION=1.41.0 \
   LIBRARY_NAME=libcrab_lambda_easy_example.so
 
 RUN yum install -y \
-  kernel-devel-4.14.177-139.254.amzn2.x86_64 \
+  glibc-static-2.26-27.amzn2.0.4.x86_64 \
   clang-7.0.1-1.amzn2.0.2.x86_64 \
   clang-libs-7.0.1-1.amzn2.0.2.x86_64 \
   clang-devel-7.0.1-1.amzn2.0.2.x86_64 \
