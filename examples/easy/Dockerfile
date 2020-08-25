@@ -10,7 +10,7 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
 ENV RUST_VERSION=1.41.0 \
   PATH=/root/.cargo/bin:$PATH \
   RUST_BACKTRACE=FULL \
-  RUSTFLAGS="-C target-feature=-crt-static" \
+  RUSTFLAGS="-C target-feature=-crt-static -C link-args=-pthread" \
   PKG_CONFIG_ALLOW_CROSS=true \
   CARGO_BUILD_TARGET=x86_64-unknown-linux-musl \
   CC_x86_64_unknown_linux_musl=clang \
@@ -19,8 +19,8 @@ ENV RUST_VERSION=1.41.0 \
   BUNDLE_ZIP_FILE_NAME=example.zip \
   LIBRARY_NAME=libcrab_lambda_easy_example.so
 
+  # glibc-static-2.26-35.amzn2.0.2.x86_64 \
 RUN yum install -y \
-  glibc-static-2.26-35.amzn2.0.2.x86_64 \
   clang-7.0.1-1.amzn2.0.2.x86_64 \
   clang-libs-7.0.1-1.amzn2.0.2.x86_64 \
   clang-devel-7.0.1-1.amzn2.0.2.x86_64 \
