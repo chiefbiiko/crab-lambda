@@ -8,7 +8,7 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
   license="MIT"
 
   # PKG_CONFIG_ALLOW_CROSS=true \
-ENV PATH="$HOME/.cargo/bin:$PATH" \
+ENV PATH="root/.cargo/bin:$PATH" \
   RUST_VERSION=1.41.0 \
   RUST_BACKTRACE=FULL \
   RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-lpthread" \
@@ -35,7 +35,7 @@ RUN yum install -y \
   ln -s /usr/bin/cmake3 /usr/bin/cmake && \
   rm -rf /var/cache/yum && \
   curl -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain $RUST_VERSION -y && \
-  "$HOME/.cargo/bin/rustup" target add x86_64-unknown-linux-musl
+  rustup target add x86_64-unknown-linux-musl
 
 VOLUME /home
 WORKDIR /home
