@@ -10,7 +10,7 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
 ENV RUST_VERSION=1.41.0 \
   PATH=/root/.cargo/bin:$PATH \
   RUST_BACKTRACE=FULL \
-  RUSTFLAGS="-C target-feature=-crt-static -C link-args=-pthread" \
+  RUSTFLAGS="-C target-feature=-crt-static -C prefer-dynamic" \
   PKG_CONFIG_ALLOW_CROSS=true \
   CARGO_BUILD_TARGET=x86_64-unknown-linux-musl \
   CC_x86_64_unknown_linux_musl=clang \
