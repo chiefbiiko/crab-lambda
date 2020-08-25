@@ -21,7 +21,7 @@ ENV PATH=/root/.cargo/bin:$PATH \
   LIBRARY_NAME=libcrab_lambda_easy_example.so
 
 RUN yum install -y \
-  glibc-headers-2.26-35.amzn2.0.2.x86_64
+  glibc-headers-2.26-35.amzn2.0.2.x86_64 \
   glibc-devel-2.26-35.amzn2.0.2.x86_64 \
   clang-7.0.1-1.amzn2.0.2.x86_64 \
   clang-libs-7.0.1-1.amzn2.0.2.x86_64 \
