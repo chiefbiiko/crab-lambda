@@ -8,7 +8,7 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
   license="MIT"
 
   # PKG_CONFIG_ALLOW_CROSS=true \
-ENV PATH="$HOME/.cargo/bin:$PATH" \
+ENV PATH="root/.cargo/bin:$PATH" \
   RUST_VERSION=1.45.2 \
   RUST_BACKTRACE=FULL \
   RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-lpthread" \
@@ -35,8 +35,7 @@ RUN yum install -y \
   ln -s /usr/bin/cmake3 /usr/bin/cmake && \
   rm -rf /var/cache/yum && \
   curl -fsSL https://sh.rustup.rs | sh -s -- --default-toolchain $RUST_VERSION -y && \
-  "$HOME/.cargo/bin/rustup" target add x86_64-unknown-linux-musl && \
-  "$HOME/.cargo/bin/rustup" default stable-x86_64-unknown-linux-musl
+  "root/.cargo/bin/rustup" target add x86_64-unknown-linux-musl
 
 VOLUME /home
 WORKDIR /home
@@ -44,4 +43,4 @@ WORKDIR /home
 COPY Cargo.toml /home/
 COPY src /home/src/
 
-CMD ["sh", "-c", "$HOME/.cargo/bin/cargo build --release && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/x86_64-unknown-linux-musl/release/$LIBRARY_NAME"]
+CMD ["sh", "-c", "root/.cargo/bin/cargo build --release && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/x86_64-unknown-linux-musl/release/$LIBRARY_NAME"]
