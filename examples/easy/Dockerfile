@@ -11,7 +11,7 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
 ENV PATH=/root/.cargo/bin:$PATH \
   RUST_VERSION=1.45.2 \
   RUST_BACKTRACE=FULL \
-  RUSTFLAGS="-C target-feature=-crt-static -C linkarg=-lpthread" \
+  RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-lpthread" \
   CARGO_BUILD_TARGET=x86_64-unknown-linux-musl \
   CC_x86_64_unknown_linux_musl=clang \
   CXX_x86_64_unknown_linux_musl=clang++ \
