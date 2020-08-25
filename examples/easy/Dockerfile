@@ -43,4 +43,4 @@ WORKDIR /home
 COPY Cargo.toml /home/
 COPY src /home/src/
 
-CMD ["sh", "-c", "root/.cargo/bin/cargo build --release && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/x86_64-unknown-linux-musl/release/$LIBRARY_NAME"]
+CMD ["sh", "-c", "cargo build --release && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/x86_64-unknown-linux-musl/release/$LIBRARY_NAME"]
