@@ -1,17 +1,7 @@
 [package]
 name = "crab-lambda-easy-example"
-version = "0.1.0"
-authors = ["Noah Anabiik Schwarz <noah.anabiik.schwarz@gmail.com>"]
+version = "0.0.0"
 edition = "2018"
-
-# [lib]
-# crate-type = ["dylib"]
-
-[profile.dev]
-panic = "abort"
-
-[profile.release]
-panic = "abort"
 
 [dependencies]
 anyhow = "1.0.32"
