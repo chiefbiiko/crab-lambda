@@ -80,9 +80,7 @@ fn main() -> Rezult<()> {
     let (lib_path, lambda_name): (String, String) = lib_info()?;
     let client: Client = Client::new();
     let lib: Library;
-    let lambda: Symbol<
-        unsafe extern fn(e: String, c: String) -> Rezult<String>,
-    >;
+    let lambda: Symbol<unsafe fn(e: String, c: String) -> Rezult<String>>;
 
     unsafe {
         lib = Library::new(&lib_path)?;
