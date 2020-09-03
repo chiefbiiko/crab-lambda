@@ -38,5 +38,6 @@ WORKDIR /home
 
 COPY Cargo.toml /home/
 COPY src /home/src/
+COPY .cargo /home/.cargo/
 
 CMD ["sh", "-c", "cargo build --release && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/release/$LIBRARY_NAME"]
