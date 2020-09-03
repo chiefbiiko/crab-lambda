@@ -6,16 +6,16 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
   description="Docker image for building a lambda for the crab-lambda runtime" \
   maintainer="Noah Anabiik Schwarz" \
   license="MIT"
-# -C target-feature=-crt-static -C prefer-dynamic
+# -C target-feature=-crt-static
 ENV RUST_VERSION=1.45.2 \
   RUST_BACKTRACE=FULL \
   PATH="/root/.cargo/bin:$PATH" \
   CC_x86_64_unknown_linux_gnu=clang \
   CXX_x86_64_unknown_linux_gnu=clang++ \
   CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=clang++ \
-  RUSTFLAGS="-C link-arg=-lpthread -C link-arg=-lm --crate-type=dylib" \
+  RUSTFLAGS="-C link-arg=-lpthread -C link-arg=-lm -C prefer-dynamic --crate-type=dylib" \
   BUNDLE_ZIP_FILE_NAME=example.zip \
-  LIBRARY_NAME=libcrab_lambda_easy_example.so
+  LIBRARY_NAME=example.so
 
 RUN yum install -y \
   glibc-headers-2.26-35.amzn2.0.2.x86_64 \
@@ -39,4 +39,4 @@ WORKDIR /home
 COPY Cargo.toml /home/
 COPY src /home/src/
 
-CMD ["sh", "-c", "cargo build --release && cp ./target/release/$LIBRARY_NAME /tmp/example.so && zip -mj $BUNDLE_ZIP_FILE_NAME /tmp/example.so"]
+CMD ["sh", "-c", "cargo build --release && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/release/$LIBRARY_NAME"]
