@@ -1,7 +1,7 @@
 use anyhow::Result as Rezult;
 // use serde_json::json;
-
-use core::panic::PanicInfo;
+#[cfg(not(debug_assertions))]
+use panic_abort as _;
 
 #[no_mangle]
 pub fn lambda(event: String, context: String) -> Rezult<String> {
