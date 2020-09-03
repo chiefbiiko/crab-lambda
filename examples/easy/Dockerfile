@@ -6,14 +6,14 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
   description="Docker image for building a lambda for the crab-lambda runtime" \
   maintainer="Noah Anabiik Schwarz" \
   license="MIT"
-# -C target-feature=-crt-static 
+# -C target-feature=-crt-static -C prefer-dynamic
 ENV RUST_VERSION=1.45.2 \
   RUST_BACKTRACE=FULL \
   PATH="/root/.cargo/bin:$PATH" \
   CC_x86_64_unknown_linux_gnu=clang \
   CXX_x86_64_unknown_linux_gnu=clang++ \
   CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=clang++ \
-  RUSTFLAGS="-C link-arg=-lpthread -C link-arg=-lm -C prefer-dynamic --crate-type=dylib" \
+  RUSTFLAGS="-C link-arg=-lpthread -C link-arg=-lm --crate-type=dylib" \
   BUNDLE_ZIP_FILE_NAME=example.zip \
   LIBRARY_NAME=libcrab_lambda_easy_example.so
 
