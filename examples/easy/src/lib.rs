@@ -1,3 +1,6 @@
+#![feature(lang_items, core_intrinsics)]
+#![no_std]
+
 use anyhow::Result as Rezult;
 // use serde_json::json;
 
