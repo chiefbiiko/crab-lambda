@@ -1,3 +1,6 @@
+#![no_main]
+#![no_std]
+
 use anyhow::Result as Rezult;
 // use serde_json::json;
 #[cfg(not(debug_assertions))]
