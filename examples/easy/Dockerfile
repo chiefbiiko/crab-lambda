@@ -7,18 +7,13 @@ LABEL url="https://github.com/chiefbiiko/crab-lambda" \
   maintainer="Noah Anabiik Schwarz" \
   license="MIT"
 
-  # PKG_CONFIG_ALLOW_CROSS=true \
-  # PATH="$HOME/.cargo/bin:$PATH" \
-ENV CARGO_HOME=/root/.cargo \
-  PATH="$CARGO_HOME/bin:$PATH" \
-  RUST_VERSION=1.41.0 \
+ENV RUST_VERSION=1.45.2 \
   RUST_BACKTRACE=FULL \
+  PATH="/root/.cargo/bin:$PATH" \
+  CC_x86_64_unknown_linux_gnu=clang \
+  CXX_x86_64_unknown_linux_gnu=clang++ \
+  CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=clang++ \
   RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-lpthread -C link-arg=-lm -C prefer-dynamic --crate-type=dylib" \
-  PKG_CONFIG_ALLOW_CROSS=true \
-  CARGO_BUILD_TARGET=x86_64-unknown-linux-musl \
-  CC_x86_64_unknown_linux_musl=clang \
-  CXX_x86_64_unknown_linux_musl=clang++ \
-  CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=clang++ \
   BUNDLE_ZIP_FILE_NAME=example.zip \
   LIBRARY_NAME=libcrab_lambda_easy_example.so
 
@@ -37,8 +32,7 @@ RUN yum install -y \
   zip-3.0-11.amzn2.0.2.x86_64 && \
   ln -s /usr/bin/cmake3 /usr/bin/cmake && \
   rm -rf /var/cache/yum && \
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain $RUST_VERSION -y && \
-  /root/.cargo/bin/rustup target add x86_64-unknown-linux-musl
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain $RUST_VERSION --profile minimal -y
 
 VOLUME /home
 WORKDIR /home
@@ -46,4 +40,4 @@ WORKDIR /home
 COPY Cargo.toml /home/
 COPY src /home/src/
 
-CMD ["sh", "-c", "/root/.cargo/bin/cargo build --release && tree ./target && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/x86_64-unknown-linux-musl/release/$LIBRARY_NAME"]
+CMD ["sh", "-c", "/root/.cargo/bin/cargo build --release && tree ./target && cp ./target/release/$LIBRARY_NAME ./target/release/example.so && zip -mj $BUNDLE_ZIP_FILE_NAME ./target/release/example.so"]
